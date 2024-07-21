@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from api.models import db, User, Planets
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
@@ -20,6 +20,9 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+
+#USUARIO
 
 
 @api.route('/all_users', methods=['GET'])
@@ -87,3 +90,14 @@ def edit_user(id):
 
     return jsonify({'msg':'El usuario ha sido editado', 'data':user.serialize()}), 200
 
+
+#PLANETAS
+
+@api.route('/all_planets', methods=['GET'])
+def get_all_planets():
+    planets = Planets.query.all()
+    print(planets)
+    planets = [planet.serialize() for planet in planets]
+    print(planets)
+    return jsonify({'msg':'OK',
+                    'data' : planets})
