@@ -24,30 +24,17 @@ class User(db.Model):
     
 
 class Planets(db.Model):
-    uid = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=False, nullable=False)
-    description = db.Column(db.String(300), unique=False, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+    description = db.Column(db.String(250), unique=False, nullable=False)
 
     def __repr__(self):
-        return f'<Planet {self.name}>'
+        return f'<User {self.name}>'
 
     def serialize(self):
         return {
-            "uid": self.uid,
+            "id": self.id,
             "name": self.name,
-            "description": self.description
+            "description" : self.description
         }
 
-
-def create_app():
-    db.init_app(app)
-    with app.app_context():
-        db.create_all()
-    return app
-
-if __name__ == "__main__":
-    from fetch_planets import fetch_and_store_planets
-
-    app = create_app()
-    with app.app_context():
-        fetch_and_store_planets(db, Planets)

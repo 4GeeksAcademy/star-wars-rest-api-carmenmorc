@@ -95,9 +95,9 @@ def edit_user(id):
 
 @api.route('/all_planets', methods=['GET'])
 def get_all_planets():
-    planets = Planets.query.all()
+    Planets = Planets.query.all()
     print(planets)
-    planets = [planet.serialize() for planet in planets]
+    planets = [planets.serialize() for planets in planets]
     print(planets)
     return jsonify({'msg':'OK',
                     'data' : planets})
