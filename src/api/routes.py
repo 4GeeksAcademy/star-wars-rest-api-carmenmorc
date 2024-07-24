@@ -95,9 +95,22 @@ def edit_user(id):
 
 @api.route('/all_planets', methods=['GET'])
 def get_all_planets():
-    Planets = Planets.query.all()
+
+    planets = Planets.query.all()
     print(planets)
     planets = [planets.serialize() for planets in planets]
     print(planets)
     return jsonify({'msg':'OK',
                     'data' : planets})
+
+
+@api.route('/add_planet', methods=['POST'])
+def add_planet():
+
+    data = request.json
+    print(data)
+    new_planet = Planets(name = data['name'], description = data['description'])
+    db.session.add(new_planet)
+    db.session.commit()
+    
+    return jsonify({'msg':'Se creó el planeta'}), 200
